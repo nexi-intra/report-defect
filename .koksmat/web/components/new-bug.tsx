@@ -131,7 +131,7 @@ export function NewBug() {
                 <SelectItem value="high">High</SelectItem>
                 <SelectItem value="medium">Medium</SelectItem>
                 <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="n.a.">Don't know</SelectItem>
+                <SelectItem value="n.a.">Don&apos;t know</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -145,7 +145,7 @@ export function NewBug() {
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="many">Many</SelectItem>
                 <SelectItem value="few">Few</SelectItem>
-                <SelectItem value="n.a.">Don't know</SelectItem>
+                <SelectItem value="n.a.">Don&apos;t know</SelectItem>
               </SelectContent>
             </Select>
           </div>
