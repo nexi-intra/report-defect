@@ -22,7 +22,7 @@ export default function Layout(props: { children: any }) {
   if (!magicbox) {
     return <div>no magicbox</div>;
   }
-  if (!magicbox.user) {
+  if (false && !magicbox.user) {
     return (
       <div className="flex h-screen">
         <div className="grow"></div>
@@ -46,14 +46,15 @@ export default function Layout(props: { children: any }) {
       </div>
     );
   }
+ 
   return (
     <AppProvider>
-      <div className="flex bg-[#2D32A9] h-[80px]">
+      {/* <div className="flex bg-[#2D32A9] h-[80px]">
         <div className="hidden md:block w-14 "></div>
         <div className="p-2 text-white font-extralight text-2xl  md:text-4xl mt-3 ml-10 md:mt-2 md:ml-0 w-full">
           <div className="flex">
             <div>
-              <Link href="/">{"master"}</Link>
+              <Link href="/">{"Report Defect"}</Link>
             </div>
             <div className="grow"></div>
             <div>
@@ -63,14 +64,14 @@ export default function Layout(props: { children: any }) {
           </div>
         </div>
         $$
-      </div>
+      </div> */}
       <div className="flex min-h-[calc(100vh-80px)]">
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <AppLeftRail {...leftRailApps} />
-        </div>
-        <div className="grow bg-slate-50 dark:bg-slate-800"></div>
-        <div className="container p-8">{children}</div>
-        <div className="grow  bg-slate-50  dark:bg-slate-800"></div>
+        </div> */}
+
+        <div className="flex items-center justify-center h-screen w-full">{children}</div>
+
         <div className="hidden md:block">
           {magicbox.showTracer && <Tracer />}
         </div>
