@@ -1,6 +1,12 @@
-import React, { forwardRef, useEffect, useLayoutEffect, useRef, MutableRefObject } from 'react';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css'
+import React, {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  MutableRefObject,
+} from "react";
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
 // Define the props type
 interface EditorProps {
   readOnly?: boolean;
@@ -11,7 +17,10 @@ interface EditorProps {
 
 // ForwardRefRenderFunction should have the ref type as Quill or null
 const Editor = forwardRef<Quill | null, EditorProps>(
-  ({ readOnly = false, defaultValue, onTextChange, onSelectionChange }, ref) => {
+  (
+    { readOnly = false, defaultValue, onTextChange, onSelectionChange },
+    ref
+  ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
@@ -23,7 +32,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
     }, [onTextChange, onSelectionChange]);
 
     useEffect(() => {
-      if (ref && 'current' in ref && ref.current) {
+      if (ref && "current" in ref && ref.current) {
         (ref as MutableRefObject<Quill>).current.enable(!readOnly);
       }
     }, [ref, readOnly]);
@@ -33,13 +42,13 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       if (!container) return;
 
       const editorContainer = container.appendChild(
-        container.ownerDocument.createElement('div'),
+        container.ownerDocument.createElement("div")
       );
       const quill = new Quill(editorContainer, {
-        theme: 'snow',
+        theme: "snow",
       });
 
-      if (ref && 'current' in ref) {
+      if (ref && "current" in ref) {
         (ref as MutableRefObject<Quill | null>).current = quill;
       }
 
@@ -56,17 +65,17 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       });
 
       return () => {
-        if (ref && 'current' in ref) {
+        if (ref && "current" in ref) {
           (ref as MutableRefObject<Quill | null>).current = null;
         }
-        container.innerHTML = '';
+        container.innerHTML = "";
       };
     }, [ref]);
 
-    return <div ref={containerRef}></div>;
-  },
+    return <div className="h-[30vh] mb-10" ref={containerRef}></div>;
+  }
 );
 
-Editor.displayName = 'Editor';
+Editor.displayName = "Editor";
 
 export default Editor;

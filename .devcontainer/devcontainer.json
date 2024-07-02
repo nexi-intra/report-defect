@@ -13,7 +13,8 @@
             "extensions": [
                 "golang.go",
                 "ms-vscode.powershell",
-                "esbenp.prettier-vscode"
+                "esbenp.prettier-vscode",
+                "spmeesseman.vscode-taskexplorer"
             ]
         }
     }
