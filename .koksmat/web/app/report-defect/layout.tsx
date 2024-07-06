@@ -22,7 +22,7 @@ export default function Layout(props: { children: any }) {
   if (!magicbox) {
     return <div>no magicbox</div>;
   }
-  if (false && !magicbox.user) {
+  if (!magicbox.user) {
     return (
       <div className="flex h-screen">
         <div className="grow"></div>
@@ -46,7 +46,7 @@ export default function Layout(props: { children: any }) {
       </div>
     );
   }
- 
+
   return (
     <AppProvider>
       {/* <div className="flex bg-[#2D32A9] h-[80px]">
@@ -70,7 +70,9 @@ export default function Layout(props: { children: any }) {
           <AppLeftRail {...leftRailApps} />
         </div> */}
 
-        <div className="flex items-center justify-center h-screen w-full">{children}</div>
+        <div className="flex items-center justify-center h-screen w-full">
+          {children}
+        </div>
 
         <div className="hidden md:block">
           {magicbox.showTracer && <Tracer />}

@@ -1,3 +1,4 @@
+"use client";
 import {
   useState,
   ChangeEvent,
@@ -24,23 +25,60 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import Quill from "quill";
-import Editor from "./editor";
 
-const Delta = Quill.import("delta");
+//import Editor from "./editor";
 
-export function NewBug() {
+// import Quill, {
+//   QuillOptionsStatic,
+//   DeltaStatic,
+//   RangeStatic,
+//   BoundsStatic,
+//   StringMap,
+//   Sources,
+// } from "quill";
+
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css"; // Import Quill styles
+
+const QuillEditor = dynamic(() => import("react-quill"), { ssr: false });
+
+export function NewBug(props: { onSubmit?: (data: any) => void }) {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [impactLevel, setImpactLevel] = useState("");
   const [usersAffected, setUsersAffected] = useState("");
   const [url, setUrl] = useState("");
+  const [details, setdetails] = useState("");
   const [attachments, setAttachments] = useState<File[]>([]);
-  const [range, setRange] = useState();
-  const [lastChange, setLastChange] = useState<any>();
-  const [readOnly, setReadOnly] = useState(false);
+  const quillModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+      [{ align: [] }],
+      [{ color: [] }],
+      ["code-block"],
+      ["clean"],
+    ],
+  };
 
-  const quillRef = useRef<Quill | null>(null);
+  const quillFormats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "link",
+    "image",
+    "align",
+    "color",
+    "code-block",
+  ];
+
+  //const quillRef = useRef<Quill | null>(null);
 
   const [valid, setvalid] = useState(false);
 
@@ -60,14 +98,18 @@ export function NewBug() {
       attachments.map((file) => getFileDetails(file))
     );
     console.log(files);
-    setreportData({
+    const data = {
       title,
       impactLevel,
       usersAffected,
       url,
-      description,
+      details,
       fileDetails: files,
-    });
+    };
+    setreportData(data);
+    if (props.onSubmit) {
+      props.onSubmit(data);
+    }
     // You can now send fileDetails to your backend if needed
   };
 
@@ -99,7 +141,14 @@ export function NewBug() {
       setAttachments((prevFiles) => [...prevFiles, ...newFiles]);
     }
   };
-
+  const handleEditorChange = (
+    value: string,
+    delta: any,
+    source: any,
+    editor: any
+  ) => {
+    setdetails(value);
+  };
   return (
     <Card className="w-full ">
       <CardHeader>
@@ -169,20 +218,13 @@ export function NewBug() {
           />
         </div>
         <div className="space-y-2 min-h-[30vh]">
-          <Label htmlFor="rich-text">Steps to Reproduce</Label>
-          <Editor
-            ref={quillRef}
-            readOnly={readOnly}
-            defaultValue={new Delta()
-              // .insert("Hello")
-              // .insert("\n", { header: 1 })
-              // .insert("Some ")
-              // .insert("initial", { bold: true })
-              // .insert(" ")
-              // .insert("content", { underline: true })
-              .insert("\n")}
-            onSelectionChange={setRange}
-            onTextChange={setLastChange}
+          <Label htmlFor="rich-text">Detailed description</Label>
+          <QuillEditor
+            // value={content}
+            onChange={handleEditorChange}
+            modules={quillModules}
+            formats={quillFormats}
+            className="w-full h-[70%] mt-10 bg-white"
           />
         </div>
       </CardContent>
@@ -192,8 +234,6 @@ export function NewBug() {
           Submit Bug Report
         </Button>
       </CardFooter>
-
-      <pre>{JSON.stringify(reportData, null, 2)}</pre>
     </Card>
   );
 }

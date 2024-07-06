@@ -1,81 +1,99 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  MutableRefObject,
-} from "react";
-import Quill from "quill";
-import "quill/dist/quill.snow.css";
-// Define the props type
-interface EditorProps {
-  readOnly?: boolean;
-  defaultValue?: any; // Adjust this type according to the actual type of defaultValue
-  onTextChange?: (...args: any[]) => void; // Adjust the function signature as needed
-  onSelectionChange?: (...args: any[]) => void; // Adjust the function signature as needed
-}
+export const x = 1;
+// "use client";
+// import React, {
+//   forwardRef,
+//   useEffect,
+//   useLayoutEffect,
+//   useRef,
+//   MutableRefObject,
+// } from "react";
+// import dynamic from 'next/dynamic';
+// import Quill from "quill";
 
-// ForwardRefRenderFunction should have the ref type as Quill or null
-const Editor = forwardRef<Quill | null, EditorProps>(
-  (
-    { readOnly = false, defaultValue, onTextChange, onSelectionChange },
-    ref
-  ) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const defaultValueRef = useRef(defaultValue);
-    const onTextChangeRef = useRef(onTextChange);
-    const onSelectionChangeRef = useRef(onSelectionChange);
+// const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
 
-    useLayoutEffect(() => {
-      onTextChangeRef.current = onTextChange;
-      onSelectionChangeRef.current = onSelectionChange;
-    }, [onTextChange, onSelectionChange]);
+// import "quill/dist/quill.snow.css";
+// // Define the props type
+// interface EditorProps {
+//   readOnly?: boolean;
+//   defaultValue?: any; // Adjust this type according to the actual type of defaultValue
+//   onTextChange?: (...args: any[]) => void; // Adjust the function signature as needed
+//   onSelectionChange?: (...args: any[]) => void; // Adjust the function signature as needed
+//   setEditor?: (quill: Quill | null) => void; //
+// }
 
-    useEffect(() => {
-      if (ref && "current" in ref && ref.current) {
-        (ref as MutableRefObject<Quill>).current.enable(!readOnly);
-      }
-    }, [ref, readOnly]);
+// // ForwardRefRenderFunction should have the ref type as Quill or null
+// const Editor = forwardRef<Quill | null, EditorProps>(
+//   (
+//     {
+//       readOnly = false,
+//       defaultValue,
+//       onTextChange,
+//       onSelectionChange,
+//       setEditor,
+//     },
+//     ref
+//   ) => {
+//     const containerRef = useRef<HTMLDivElement>(null);
+//     const defaultValueRef = useRef(defaultValue);
+//     const onTextChangeRef = useRef(onTextChange);
+//     const onSelectionChangeRef = useRef(onSelectionChange);
 
-    useEffect(() => {
-      const container = containerRef.current;
-      if (!container) return;
+//     useLayoutEffect(() => {
+//       onTextChangeRef.current = onTextChange;
+//       onSelectionChangeRef.current = onSelectionChange;
+//     }, [onTextChange, onSelectionChange]);
 
-      const editorContainer = container.appendChild(
-        container.ownerDocument.createElement("div")
-      );
-      const quill = new Quill(editorContainer, {
-        theme: "snow",
-      });
+//     useEffect(() => {
+//       if (ref && "current" in ref && ref.current) {
+//         (ref as MutableRefObject<Quill>).current.enable(!readOnly);
+//       }
+//     }, [ref, readOnly]);
 
-      if (ref && "current" in ref) {
-        (ref as MutableRefObject<Quill | null>).current = quill;
-      }
+//     useEffect(() => {
+//       const container = containerRef.current;
+//       if (!container) return;
 
-      if (defaultValueRef.current) {
-        quill.setContents(defaultValueRef.current);
-      }
+//       const editorContainer = container.appendChild(
+//         container.ownerDocument.createElement("div")
+//       );
+//       const quill = new Quill(editorContainer, {
+//         theme: "snow",
+//       });
 
-      quill.on(Quill.events.TEXT_CHANGE, (...args) => {
-        onTextChangeRef.current?.(...args);
-      });
+//       if (ref && "current" in ref) {
+//         (ref as MutableRefObject<Quill | null>).current = quill;
+//       }
 
-      quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
-        onSelectionChangeRef.current?.(...args);
-      });
+//       if (defaultValueRef.current) {
+//         quill.setContents(defaultValueRef.current);
+//       }
 
-      return () => {
-        if (ref && "current" in ref) {
-          (ref as MutableRefObject<Quill | null>).current = null;
-        }
-        container.innerHTML = "";
-      };
-    }, [ref]);
+//       quill.on(Quill.events.TEXT_CHANGE, (...args) => {
+//         onTextChangeRef.current?.(...args);
+//       });
 
-    return <div className="h-[30vh] mb-10" ref={containerRef}></div>;
-  }
-);
+//       quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
+//         onSelectionChangeRef.current?.(...args);
+//       });
+//       if (setEditor) {
+//         setEditor(quill);
+//       }
+//       return () => {
+//         if (setEditor) {
+//           setEditor(null);
+//         }
+//         if (ref && "current" in ref) {
+//           (ref as MutableRefObject<Quill | null>).current = null;
+//         }
+//         container.innerHTML = "";
+//       };
+//     }, [ref]);
 
-Editor.displayName = "Editor";
+//     return <div className="h-[30vh] mb-10" ref={containerRef}></div>;
+//   }
+// );
 
-export default Editor;
+// Editor.displayName = "Editor";
+
+// export default Editor;
