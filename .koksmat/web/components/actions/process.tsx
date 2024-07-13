@@ -9,6 +9,16 @@ import { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { trace } from "console";
 import { set } from "date-fns";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 interface CaseProps {
   scopes: string[];
   title: string;
@@ -165,7 +175,7 @@ export default function ProcessTransaction(props: {
     setrunning(true);
   }, [transactionId]);
 
-  return (
+  const component = (
     <div>
       {doShowError() && <div className="bg-red-500">Error: {error}</div>}
       {running && (
@@ -200,4 +210,28 @@ export default function ProcessTransaction(props: {
       )}
     </div>
   );
+  let wrapper = component;
+
+  if (true) {
+    wrapper = (
+      <Dialog
+        defaultOpen={true}
+        onOpenChange={(open) => {
+          if (!open) {
+            setrunning(false);
+          }
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Processing</DialogTitle>
+            <DialogDescription>xxx</DialogDescription>
+          </DialogHeader>
+          {component}
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return wrapper;
 }
